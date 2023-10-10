@@ -9,6 +9,7 @@ export default {
       colors: {
         'c1': '#0D0D0D',
         'c2': '#000000',
+        'c2-h': '#00000080',
         'c3': '#FFFFFF',
         'c4': '#1F1F1F'
       },
