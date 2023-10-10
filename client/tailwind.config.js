@@ -14,6 +14,9 @@ export default {
       },
       fontFamily: {
         'primary': ['Goldman', 'Arial']
+      },
+      backgroundImage: {
+        'bg': 'url(/bg.svg)'
       }
     },
   },

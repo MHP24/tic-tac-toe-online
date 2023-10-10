@@ -11,20 +11,33 @@
   --c4: #1F1F1F;
   --neon-blue: #1900ff;
   --neon-red: #fb1212;
+  --neon-white: #ffffff;
 }
 
 .text-shadow-blue {
-  text-shadow: 0px 0px 5px var(--neon-blue), 0px 0px 10px var(--neon-blue), 0px 0px 15px var(--neon-blue);
+  text-shadow: 0px 0px 5px var(--neon-blue), 0px 0px 15px var(--neon-blue), 0px 0px 15px var(--neon-blue);
 }
 
 .text-shadow-red {
-  text-shadow: 0px 0px 4px var(--neon-red), 0px 0px 6px var(--neon-red), 0px 0px 10px var(--neon-red);
+  text-shadow: 0px 0px 5px var(--neon-red), 0px 0px 15px var(--neon-red), 0px 0px 15px var(--neon-red);
 }
 
 .box-blue {
-  box-shadow: 0px 0px 5px var(--neon-blue), 0px 0px 10px var(--neon-blue), 0px 0px 15px var(--neon-blue);
+  box-shadow: 0px 0px 10px var(--neon-blue), 0px 0px 10px var(--neon-blue), 0px 0px 15px var(--neon-blue);
 }
 
 .box-red {
-  box-shadow: 0px 0px 5px var(--neon-red), 0px 0px 10px var(--neon-red), 0px 0px 15px var(--neon-red);
+  box-shadow: 0px 0px 10px var(--neon-red), 0px 0px 10px var(--neon-red), 0px 0px 15px var(--neon-red);
+}
+
+.box, .text-shadow {
+  transition: .4s all;
+}
+
+.text-shadow:hover {
+  text-shadow: 0px 0px 2px var(--neon-white), 0px 0px 2px var(--neon-white), 0px 0px 2px var(--neon-white);
+}
+
+.box:hover {
+  box-shadow: 0px 0px 3px var(--neon-white), 0px 0px 3px var(--neon-white), 0px 0px 10px var(--neon-white);
 }
