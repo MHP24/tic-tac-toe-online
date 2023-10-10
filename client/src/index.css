@@ -1,3 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --c1: #0D0D0D;
+  --c2: #000000;
+  --c3: #FFFFFF;
+  --c4: #1F1F1F;
+  --neon-blue: #1900ff;
+  --neon-red: #fb1212;
+}
+
+.text-shadow-blue {
+  text-shadow: 0px 0px 5px var(--neon-blue), 0px 0px 10px var(--neon-blue), 0px 0px 15px var(--neon-blue);
+}
+
+.text-shadow-red {
+  text-shadow: 0px 0px 4px var(--neon-red), 0px 0px 6px var(--neon-red), 0px 0px 10px var(--neon-red);
+}
+
+.box-blue {
+  box-shadow: 0px 0px 5px var(--neon-blue), 0px 0px 10px var(--neon-blue), 0px 0px 15px var(--neon-blue);
+}
+
+.box-red {
+  box-shadow: 0px 0px 5px var(--neon-red), 0px 0px 10px var(--neon-red), 0px 0px 15px var(--neon-red);
+}

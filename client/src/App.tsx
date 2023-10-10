@@ -7,12 +7,14 @@ import { Game, Home } from './pages'
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/game" element={<Game/>}/>
-      </Routes>
-    </Router>
+    <main>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/game" element={<Game/>}/>
+        </Routes>
+      </Router>
+    </main>
   )
 }
 
