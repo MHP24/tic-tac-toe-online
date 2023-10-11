@@ -22,26 +22,26 @@ export const Home = () => {
                 <Input placeholder='Room code' type='text' key='input-room-code'/>
               </form>
             </div>
-            : <div className='w-full text-center'>
+            : <div className='w-md text-center'>
               <form className='flex flex-col items-center gap-7 py-5 max-w-md m-auto'>
-                <h3 className='text-3xl font-primary text-shadow-red'>Room configuration</h3>
+                <h3 className='text-3xl font-primary text-shadow-red mb-3'>Room configuration</h3>
 
-                <div className='grid grid-cols-2 gap-3 items-cneter'>
-                  <label className='font-primary text-left'>
-                    {'Time per turn  (default 30s)'}
+                <div className='grid grid-cols-2 gap-3 items-center'>
+                  <label className='font-primary text-left text-lg'>
+                    {'Time per turn'}
                   </label>
-                  <Input placeholder='segs' type='number' key='input-segs-config'/>
+                  <Input placeholder='Seconds' type='number' key='input-segs-config'/>
                 </div>
 
                 <div className='grid grid-cols-2 gap-3 items-center'>
-                  <label className='font-primary text-left'>
-                    {'Rounds (default 3)'}
+                  <label className='font-primary text-left text-lg'>
+                    {'Rounds - (Default 3)'}
                   </label>
-                  <Input placeholder='rounds' type='number' key='input-rounds-config'/>
+                  <Input placeholder='Count' type='number' key='input-rounds-config'/>
                 </div>
 
-                <div className='w-60 mt-3'>
-                  <Button color='blue' label='Create' height={2} onClick={() => {}}/>
+                <div className='w-full mt-3'>
+                  <Button color='blue' label='Create' height={3} onClick={() => {}}/>
                 </div>
 
               </form>
