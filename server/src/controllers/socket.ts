@@ -1,5 +1,8 @@
 import { type Socket } from 'socket.io'
 
-export const initializeConnection = (socket: Socket): void => {
-  console.log({ socket })
+// const rooms = new Map<string, Socket>()
+
+export const initializeConnection = async (socket: Socket): Promise<void> => {
+  await socket.join('some room')
+  // sockets.set(socket.id, socket)
 }
