@@ -1,5 +1,7 @@
+export type TPlayer = 'P1' | 'P2'
+
 export type TGamePlayer = {
-  player: 'P1' | 'P2'
+  player: TPlayer
   data: {
     wins: number
     isPlaying: boolean
