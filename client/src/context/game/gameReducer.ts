@@ -1,4 +1,4 @@
-import { type TGameState } from '../../types'
+import { type TGamePlayer, type TGameState } from '../../types'
 
 export type TAction = {
   type: '[Game] - Create'
@@ -7,6 +7,7 @@ export type TAction = {
   payload: {
     player: 'P1' | 'P2'
     sessionId: string
+    players: TGamePlayer[]
   }
 } | {
   type: '[Session] - Update ID'
@@ -28,16 +29,11 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
       }
 
     case '[Game] - Add player':
-      const { player, sessionId } = action.payload
+      const { player, sessionId, players } = action.payload
       return {
         ...state,
-        players: [...state.players, {
-          player,
-          data: {
-            wins: 0,
-            isPlaying: false
-          }
-        }],
+        players,
+        status: 'Queuing',
         player: state.sessionId === sessionId ? player : state.player
       }
 

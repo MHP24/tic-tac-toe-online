@@ -18,14 +18,12 @@ export const Home = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
   const navigate = useNavigate()
   const { joinGame } = useGame()
-
   const selectOption = (option: 'join' | 'create') => {
     setOption(option)
     open()
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log({ data })
     option === 'create'
       ? navigate(`/lobby?rounds=${data.rounds}&time=${data.time}`)
       : joinGame(data.roomId!)
@@ -85,7 +83,6 @@ export const Home = () => {
           Tic tac toe <br/><span className='text-shadow-red'>Online</span>
         </h1>
         <h2 className='font-primary text-center text-2xl md:text-3xl'>Matches active now: 10</h2>
-
         <div className='flex flex-col items-center gap-10'>
           <Button label='Join game' color='red' onClick={() => { selectOption('join') }}/>
           <Button label='Create new game' color='blue' onClick={() => { selectOption('create') }}/>

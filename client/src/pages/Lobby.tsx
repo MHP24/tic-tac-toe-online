@@ -4,7 +4,6 @@ import { useGame, useQuery } from '../hooks'
 export const Lobby = () => {
   const { createGame } = useGame()
   const query = useQuery()
-
   useEffect(() => {
     const totalRounds = query.get('rounds') ?? 3
     const turnTime = query.get('time') ?? 30

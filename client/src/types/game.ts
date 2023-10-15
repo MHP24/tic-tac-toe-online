@@ -30,6 +30,7 @@ export type TGameFormattedConfig = {
   turnTime: number
   player?: 'P1' | 'P2'
   sessionId?: string
+  players?: TGamePlayer[]
 }
 
 export type TGameContext = {

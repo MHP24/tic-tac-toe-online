@@ -47,17 +47,24 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const createGame = (data: TGameSetupConfig) => {
     const roomId = setupGame(data)
     joinGame(roomId)
+    dispatch({ type: '[Game] - Create' })
   }
 
   const addPlayer = (data: TGameFormattedConfig) => {
-    console.log({ joinedData: data })
+    const { player, sessionId, players } = data
     dispatch({
       type: '[Game] - Add player',
       payload: {
-        player: data.player as 'P1' | 'P2',
-        sessionId: data.sessionId!
+        player: player as 'P1' | 'P2',
+        sessionId: sessionId!,
+        players: players!
       }
     })
+  }
+
+  const startGame = (data: any) => {
+
+    // dispatch({type: '[Game] - Start', payload: })
   }
 
   return (
