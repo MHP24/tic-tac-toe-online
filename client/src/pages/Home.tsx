@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { Button, Input, Modal } from '../components/ui'
-import { useModal } from '../hooks'
+import { useGame, useModal } from '../hooks'
 import { regex } from '../utils'
 import { useNavigate } from 'react-router-dom'
 
 type Inputs = {
   time: number
   rounds: number
+  roomId?: string
 }
 
 export const Home = () => {
@@ -16,6 +17,7 @@ export const Home = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
   const navigate = useNavigate()
+  const { joinGame } = useGame()
 
   const selectOption = (option: 'join' | 'create') => {
     setOption(option)
@@ -23,7 +25,10 @@ export const Home = () => {
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    navigate(`/lobby?rounds=${data.rounds}&time=${data.time}`)
+    console.log({ data })
+    option === 'create'
+      ? navigate(`/lobby?rounds=${data.rounds}&time=${data.time}`)
+      : joinGame(data.roomId!)
   }
 
   return (
@@ -43,7 +48,9 @@ export const Home = () => {
                       placeholder='Room code'
                       type='text'
                       key='input-room-code'
+                      {...register('roomId', { required: true })}
                     />
+                    <Button color='red' label='Join game' height={3} onClick={() => {}}/>
                   </>
                   : <>
                     <h3 className='text-3xl font-primary text-shadow-red mb-3'>Room configuration</h3>
@@ -53,7 +60,7 @@ export const Home = () => {
                       key='input-segs-config'
                       label='Time per run'
                       hasError={Boolean(errors?.time)}
-                      {...register('time', { required: true, pattern: regex.numbersOnly })}
+                      {...register('time', { required: false, pattern: regex.numbersOnly })}
                     />
                     <Input
                       placeholder='Count'
@@ -61,7 +68,7 @@ export const Home = () => {
                       key='input-rounds-config'
                       label='Total rounds'
                       hasError={Boolean(errors?.rounds)}
-                      {...register('rounds', { required: true, pattern: regex.numbersOnly })}
+                      {...register('rounds', { required: false, pattern: regex.numbersOnly })}
                     />
                     <Button color='blue' label='Create' height={3} onClick={() => {}}/>
                   </>

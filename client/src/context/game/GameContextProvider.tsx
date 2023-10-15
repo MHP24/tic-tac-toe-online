@@ -1,11 +1,13 @@
 import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
-import { type TGameSetupConfig, type TGameState } from '../../types'
+import { type TGameFormattedConfig, type TGameSetupConfig, type TGameState } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
 import { generateId } from '../../utils'
 
 const INITIAL_STATE: TGameState = {
   currentRound: 0,
+  player: undefined,
+  sessionId: undefined,
   players: [],
   room: undefined,
   status: 'Creating',
@@ -15,33 +17,51 @@ const INITIAL_STATE: TGameState = {
 
 export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_STATE)
-  const { on, emit } = useSocket(import.meta.env.VITE_SERVER_URL)
+  const { on, emit, status, socket } = useSocket(import.meta.env.VITE_SERVER_URL)
 
   useEffect(() => {
-    on('[Room] - Setup', (data) => { console.log({ data }) })
-  }, [])
+    if (status === 'online') {
+      dispatch({ type: '[Session] - Update ID', payload: `${socket?.id}` })
 
+      // on<TGameFormattedConfig>('[Game] - Setup', createGame)
+      on<TGameFormattedConfig>('[Game] - Joined', addPlayer)
+      // on start
+    }
+  }, [status])
+
+  // Request for a game as host
   const setupGame = ({ totalRounds, turnTime }: TGameSetupConfig) => {
     const roomId = generateId()
-
-    emit('[Room] - Setup', {
+    emit('[Game] - Setup', {
       roomId,
       totalRounds,
       turnTime
     })
+    return roomId
+  }
 
-    // dispatch({
-    //   type: '[Room] - Create',
-    //   payload: {
-    //     totalRounds,
-    //     turnTime,
-    //     room: roomId
-    //   }
-    // })
+  const joinGame = (roomId: string) => {
+    emit('[Game] - Join', roomId)
+  }
+
+  const createGame = (data: TGameSetupConfig) => {
+    const roomId = setupGame(data)
+    joinGame(roomId)
+  }
+
+  const addPlayer = (data: TGameFormattedConfig) => {
+    console.log({ joinedData: data })
+    dispatch({
+      type: '[Game] - Add player',
+      payload: {
+        player: data.player as 'P1' | 'P2',
+        sessionId: data.sessionId!
+      }
+    })
   }
 
   return (
-    <GameContext.Provider value={{ ...state, setupGame }}>
+    <GameContext.Provider value={{ ...state, createGame, joinGame }}>
       {children}
     </GameContext.Provider>
   )

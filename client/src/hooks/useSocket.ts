@@ -36,7 +36,7 @@ export const useSocket = (url: string) => {
     }
   }, [])
 
-  const on = (event: string, callback: (data: unknown) => void) => {
+  const on = <T>(event: string, callback: (data: T) => void) => {
     socket?.on(event, callback)
   }
 

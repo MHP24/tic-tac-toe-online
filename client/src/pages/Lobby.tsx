@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { useGame, useQuery } from '../hooks'
 
 export const Lobby = () => {
-  const { setupGame } = useGame()
+  const { createGame } = useGame()
   const query = useQuery()
 
   useEffect(() => {
     const totalRounds = query.get('rounds') ?? 3
     const turnTime = query.get('time') ?? 30
-    setupGame({
+
+    createGame({
       totalRounds,
       turnTime
     })

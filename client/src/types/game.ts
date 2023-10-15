@@ -10,6 +10,8 @@ export type TGamePlayer = {
 
 export type TGameProvider = {
   room?: string
+  player?: 'P1' | 'P2'
+  sessionId?: string
   turnTime?: number
   totalRounds?: number
   currentRound: number
@@ -22,11 +24,17 @@ export type TGameSetupConfig = {
   turnTime: number | string
 }
 
+export type TGameFormattedConfig = {
+  roomId: string
+  totalRounds: number
+  turnTime: number
+  player?: 'P1' | 'P2'
+  sessionId?: string
+}
+
 export type TGameContext = {
-  setupGame: ({
-    totalRounds,
-    turnTime
-  }: TGameSetupConfig) => void
+  createGame: (data: TGameSetupConfig) => void
+  joinGame: (roomId: string) => void
 } & TGameProvider
 
 export type TGameState = & TGameProvider
