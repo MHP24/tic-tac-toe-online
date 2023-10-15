@@ -1,8 +1,9 @@
 import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
-import { type TGameFormattedConfig, type TGameSetupConfig, type TGameState } from '../../types'
+import { type TGameStart, type TGameAssignment, type TGameSetupConfig, type TGameState } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
 import { generateId } from '../../utils'
+import { useNavigate } from 'react-router-dom'
 
 const INITIAL_STATE: TGameState = {
   currentRound: 0,
@@ -18,14 +19,14 @@ const INITIAL_STATE: TGameState = {
 export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_STATE)
   const { on, emit, status, socket } = useSocket(import.meta.env.VITE_SERVER_URL)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (status === 'online') {
       dispatch({ type: '[Session] - Update ID', payload: `${socket?.id}` })
 
-      // on<TGameFormattedConfig>('[Game] - Setup', createGame)
-      on<TGameFormattedConfig>('[Game] - Joined', addPlayer)
-      // on start
+      on<TGameAssignment>('[Game] - Joined', addPlayer)
+      on<TGameStart>('[Game] - Start', startGame)
     }
   }, [status])
 
@@ -50,21 +51,21 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch({ type: '[Game] - Create' })
   }
 
-  const addPlayer = (data: TGameFormattedConfig) => {
+  const addPlayer = (data: TGameAssignment) => {
     const { player, sessionId, players } = data
     dispatch({
       type: '[Game] - Add player',
       payload: {
-        player: player as 'P1' | 'P2',
-        sessionId: sessionId!,
-        players: players!
+        player,
+        sessionId,
+        players
       }
     })
   }
 
-  const startGame = (data: any) => {
-
-    // dispatch({type: '[Game] - Start', payload: })
+  const startGame = (data: TGameStart) => {
+    dispatch({ type: '[Game] - Start', payload: data })
+    navigate('/game')
   }
 
   return (

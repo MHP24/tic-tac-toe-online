@@ -1,7 +1,9 @@
 export type TGameStatus = 'Creating' | 'Queuing' | 'Started' | 'Finished'
 
+export type TGamePlayerSide = 'P1' | 'P2'
+
 export type TGamePlayer = {
-  player: 'P1' | 'P2'
+  player: TGamePlayerSide
   data: {
     wins: number
     isPlaying: boolean
@@ -10,7 +12,7 @@ export type TGamePlayer = {
 
 export type TGameProvider = {
   room?: string
-  player?: 'P1' | 'P2'
+  player?: TGamePlayerSide
   sessionId?: string
   turnTime?: number
   totalRounds?: number
@@ -28,9 +30,19 @@ export type TGameFormattedConfig = {
   roomId: string
   totalRounds: number
   turnTime: number
-  player?: 'P1' | 'P2'
-  sessionId?: string
-  players?: TGamePlayer[]
+
+}
+
+export type TGameAssignment = {
+  player: TGamePlayerSide
+  sessionId: string
+  players: TGamePlayer[]
+}
+
+export type TGameStart = {
+  room: string
+  totalRounds: number
+  turnTime: number
 }
 
 export type TGameContext = {

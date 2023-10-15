@@ -1,17 +1,16 @@
-import { type TGamePlayer, type TGameState } from '../../types'
+import { type TGameStart, type TGameAssignment, type TGameState } from '../../types'
 
 export type TAction = {
   type: '[Game] - Create'
 } | {
   type: '[Game] - Add player'
-  payload: {
-    player: 'P1' | 'P2'
-    sessionId: string
-    players: TGamePlayer[]
-  }
+  payload: TGameAssignment
 } | {
   type: '[Session] - Update ID'
   payload: string
+} | {
+  type: '[Game] - Start'
+  payload: TGameStart
 }
 
 export const gameReducer = (state: TGameState, action: TAction): TGameState => {
@@ -35,6 +34,12 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
         players,
         status: 'Queuing',
         player: state.sessionId === sessionId ? player : state.player
+      }
+
+    case '[Game] - Start':
+      return {
+        ...state,
+        ...action.payload
       }
 
     default:
