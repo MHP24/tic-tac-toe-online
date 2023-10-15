@@ -9,38 +9,22 @@ export const initializeConnection = async (socket: Socket): Promise<void> => {
     turnTime = validateGameProp(turnTime, 30)
     games.create(roomId, { totalRounds, turnTime })
 
-    // socket.emit('[Game] - Setup', {
-    //   roomId,
-    //   totalRounds,
-    //   turnTime
-    // })
-
     console.log(`Creating room: ${roomId} for P1`)
   })
 
   socket.on('[Game] - Join', async (roomId) => {
     const player = games.addPlayer(roomId)
-    // if (player) {
-    //   await socket.join(roomId)
-    //   io.to(roomId).emit('[Game] - Joined', {
-    //     sessionId: socket.id,
-    //     roomId,
-    //     player,
-    //     ...rest
-    //   })
-    //   io.to(roomId).emit('[Game] - Start', player === 'P2')
-    //   return
-    // }
-
     if (player) {
       await socket.join(roomId)
       io.to(roomId).emit('[Game] - Joined', {
-        session: socket.id,
-        player
+        sessionId: socket.id,
+        player,
+        players: games.get(roomId)?.players
       })
 
-      // if player === 'P2' emit start and send entire config
-      // io.to(roomId).emit('[Game] - Start', player === 'P2')
+      player === 'P2' && (
+        io.to(roomId).emit('[Game] - Start', { ...games.get(roomId), room: roomId })
+      )
       console.log(`Player ${socket.id} joined in room: ${roomId}`)
       return
     }
