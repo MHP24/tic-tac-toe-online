@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { Button, Input, Modal } from '../components/ui'
 import { useModal } from '../hooks'
 import { regex } from '../utils'
+import { useNavigate } from 'react-router-dom'
 
 type Inputs = {
   time: number
@@ -12,7 +13,9 @@ type Inputs = {
 export const Home = () => {
   const { open, ...rest } = useModal()
   const [option, setOption] = useState<'join' | 'create'>('create')
+
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
+  const navigate = useNavigate()
 
   const selectOption = (option: 'join' | 'create') => {
     setOption(option)
@@ -20,7 +23,7 @@ export const Home = () => {
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data)
+    navigate(`/lobby?rounds=${data.rounds}&time=${data.time}`)
   }
 
   return (

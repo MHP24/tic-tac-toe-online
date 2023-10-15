@@ -1,4 +1,4 @@
 import { createContext } from 'react'
-import { type TGameProvider } from '../../types'
+import { type TGameContext } from '../../types'
 
-export const GameContext = createContext<TGameProvider | undefined>(undefined)
+export const GameContext = createContext({} as TGameContext)

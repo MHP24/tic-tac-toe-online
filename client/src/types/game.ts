@@ -4,12 +4,11 @@ export type TGamePlayer = {
   player: 'P1' | 'P2'
   data: {
     wins: number
-    username: string
     isPlaying: boolean
   }
 }
 
-export type TGameContext = {
+export type TGameProvider = {
   room?: string
   turnTime?: number
   totalRounds?: number
@@ -18,8 +17,16 @@ export type TGameContext = {
   players: TGamePlayer[]
 }
 
-export type TGameProvider = {
-  createGame: (totalRounds: number, turnTime: number, username: string) => void
-} & TGameContext
+export type TGameSetupConfig = {
+  totalRounds: number | string
+  turnTime: number | string
+}
 
-export type TGameState = & TGameContext
+export type TGameContext = {
+  setupGame: ({
+    totalRounds,
+    turnTime
+  }: TGameSetupConfig) => void
+} & TGameProvider
+
+export type TGameState = & TGameProvider

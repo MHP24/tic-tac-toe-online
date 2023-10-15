@@ -1,3 +1,4 @@
 export * from './useModal'
-export * from './useGame'
 export * from './useSocket'
+export * from './useQuery'
+export * from './useGame'
