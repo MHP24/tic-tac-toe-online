@@ -8,12 +8,15 @@ export type TGamePlayer = {
   }
 }
 
+export type TGameSelection = 'X' | 'O' | ''
+
 export type TGame = {
   totalRounds: number
   turnTime: number
   currentRound?: number
   turn?: 'P1' | 'P2'
   players: TGamePlayer[]
+  table: TGameSelection[][]
 }
 
 export type TGameSetupConfig = {

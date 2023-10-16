@@ -7,7 +7,12 @@ export const create = (id: string, data: TGameSetupConfig): void => {
     ...data,
     totalRounds: data.totalRounds,
     turnTime: data.turnTime,
-    players: []
+    players: [],
+    table: [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ]
   }
   games.set(id, config)
 }
