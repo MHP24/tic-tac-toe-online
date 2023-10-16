@@ -1,3 +1,5 @@
+import { type TSelection } from '.'
+
 export type TGameStatus = 'Creating' | 'Queuing' | 'Started' | 'Finished'
 
 export type TGamePlayerSide = 'P1' | 'P2'
@@ -19,6 +21,7 @@ export type TGameProvider = {
   currentRound: number
   status: TGameStatus
   players: TGamePlayer[]
+  table?: TSelection[][]
 }
 
 export type TGameSetupConfig = {

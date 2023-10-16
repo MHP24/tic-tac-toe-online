@@ -13,7 +13,8 @@ const INITIAL_STATE: TGameState = {
   room: undefined,
   status: 'Creating',
   totalRounds: undefined,
-  turnTime: undefined
+  turnTime: undefined,
+  table: undefined
 }
 
 export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
