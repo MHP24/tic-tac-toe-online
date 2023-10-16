@@ -18,6 +18,7 @@ export const Home = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
   const navigate = useNavigate()
   const { joinGame } = useGame()
+
   const selectOption = (option: 'join' | 'create') => {
     setOption(option)
     open()
@@ -76,8 +77,7 @@ export const Home = () => {
         }
       </Modal>
 
-      <section className='flex flex-col gap-16 justify-center h-screen
-        bg-bg bg-fixed bg-center bg-cover p-10'>
+      <section className='flex flex-col gap-16 justify-center h-screen p-10'>
         <h1 className='font-primary text-6xl md:text-7xl lg:text-8xl
           text-center text-shadow-blue italic'>
           Tic tac toe <br/><span className='text-shadow-red'>Online</span>

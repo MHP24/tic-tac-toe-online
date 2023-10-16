@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { useGame, useQuery } from '../hooks'
+import { Button, Loader } from '../components/ui'
 
 export const Lobby = () => {
-  const { createGame } = useGame()
+  const { createGame, room } = useGame()
   const query = useQuery()
+
   useEffect(() => {
     const totalRounds = query.get('rounds') ?? 3
     const turnTime = query.get('time') ?? 30
@@ -14,12 +16,24 @@ export const Lobby = () => {
     })
   }, [])
 
+  const copyToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text)
+  }
+
   return (
-    <section className='h-screen bg-bg bg-fixed bg-center bg-cover p-10'>
-      <h1>Lobby</h1>
-      <h2>Waiting for <br/>Rival</h2>
-      <p>Loading...</p>
-      <button>Share game</button>
+    <section className='h-screen p-10 text-center
+      flex flex-col gap-10 items-center justify-evenly
+      max-w-5xl m-auto'>
+      <div className='flex flex-col gap-6'>
+        <h1 className='text-5xl md:text-6xl lg:text-7xl font-primary text-shadow-red'>Lobby</h1>
+        <h2 className='text-5xl md:text-6xl lg:text-7xl font-primary text-shadow-blue'>Waiting for Rival</h2>
+      </div>
+      <Loader/>
+      {
+        Boolean(room) && (
+          <Button color='blue' label='Share room' onClick={async () => { await copyToClipboard(room!) }}/>
+        )
+      }
     </section>
 
   )

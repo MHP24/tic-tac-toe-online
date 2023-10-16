@@ -2,6 +2,7 @@ import { type TGameStart, type TGameAssignment, type TGameState } from '../../ty
 
 export type TAction = {
   type: '[Game] - Create'
+  payload: string
 } | {
   type: '[Game] - Add player'
   payload: TGameAssignment
@@ -24,7 +25,8 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
     case '[Game] - Create':
       return {
         ...state,
-        status: 'Queuing'
+        status: 'Queuing',
+        room: action.payload
       }
 
     case '[Game] - Add player':

@@ -1,7 +1,7 @@
 type Props = {
   label: string
   color: 'blue' | 'red'
-  onClick: (args: any) => void
+  onClick: (args: any) => any
   height?: number
 }
 
