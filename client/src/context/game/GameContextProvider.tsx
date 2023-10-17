@@ -1,5 +1,5 @@
 import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
-import { type TGameStart, type TGameAssignment, type TGameSetupConfig, type TGameState } from '../../types'
+import { type TGameStart, type TGameAssignment, type TGameSetupConfig, type TGameState, type TGameTurn } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
 import { generateId } from '../../utils'
@@ -28,6 +28,7 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
       on<TGameAssignment>('[Game] - Joined', addPlayer)
       on<TGameStart>('[Game] - Start', startGame)
+      on<TGameTurn>('[Game] - Turn', receiveTurn)
     }
   }, [status])
 
@@ -67,6 +68,10 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const startGame = (data: TGameStart) => {
     dispatch({ type: '[Game] - Start', payload: data })
     navigate('/game')
+  }
+
+  const receiveTurn = (data: TGameTurn) => {
+    console.log({ data })
   }
 
   return (

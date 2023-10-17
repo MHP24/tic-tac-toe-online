@@ -54,3 +54,9 @@ export type TGameContext = {
 } & TGameProvider
 
 export type TGameState = & TGameProvider
+
+export type TGameTurn = {
+  time: number
+  player: TGamePlayerSide
+  table: TSelection[][]
+}
