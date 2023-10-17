@@ -1,4 +1,9 @@
-import { type TGameStart, type TGameAssignment, type TGameState } from '../../types'
+import {
+  type TGameStart,
+  type TGameAssignment,
+  type TGameState,
+  type TGameTurn
+} from '../../types'
 
 export type TAction = {
   type: '[Game] - Create'
@@ -12,6 +17,10 @@ export type TAction = {
 } | {
   type: '[Game] - Start'
   payload: TGameStart
+} |
+{
+  type: '[Game] - Receive turn'
+  payload: TGameTurn
 }
 
 export const gameReducer = (state: TGameState, action: TAction): TGameState => {
@@ -41,7 +50,22 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
     case '[Game] - Start':
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        status: 'Started'
+      }
+
+    case '[Game] - Receive turn':
+      const { player: turnPlayer, ...rest } = action.payload
+      return {
+        ...state,
+        ...rest,
+        players: state.players.map(({ player, data }) => ({
+          player,
+          data: {
+            ...data,
+            isPlaying: player === turnPlayer
+          }
+        }))
       }
 
     default:

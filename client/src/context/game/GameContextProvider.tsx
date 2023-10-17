@@ -71,7 +71,7 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const receiveTurn = (data: TGameTurn) => {
-    console.log({ data })
+    dispatch({ type: '[Game] - Receive turn', payload: data })
   }
 
   return (

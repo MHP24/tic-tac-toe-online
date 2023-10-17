@@ -13,9 +13,9 @@ export const Table: FC<Props> = ({ selections }) => {
       {
         selections.map(([x, y, z], i) => (
           <div key={`table-row-${i}`} className='grid grid-cols-3 gap-4'>
-            <Selection selection={x}/>
-            <Selection selection={y}/>
-            <Selection selection={z}/>
+            <Selection selection={x} coords={{ i, j: 0 }}/>
+            <Selection selection={y} coords={{ i, j: 1 }}/>
+            <Selection selection={z} coords={{ i, j: 2 }}/>
           </div>
         ))
       }
