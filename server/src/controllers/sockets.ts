@@ -22,10 +22,12 @@ export const initializeConnection = async (socket: Socket): Promise<void> => {
         players: games.get(roomId)?.players
       })
 
-      player === 'P2' && (
-        io.to(roomId).emit('[Game] - Start', { ...games.get(roomId), room: roomId })
-      )
       console.log(`Player ${socket.id} joined in room: ${roomId}`)
+
+      if (player === 'P2') {
+        io.to(roomId).emit('[Game] - Start', { ...games.get(roomId), room: roomId })
+        io.to(roomId).emit('[Game] - Turn', games.handleNextTurn(roomId))
+      }
       return
     }
 

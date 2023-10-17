@@ -9,7 +9,10 @@
         "sourceType": "module"
     },
     "rules": {
+        "indent": ["error", 2, { "SwitchCase": 1 }],
         "@typescript-eslint/strict-boolean-expressions": "off",
-        "@typescript-eslint/consistent-type-definitions": "off"
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
+        
     }
 }

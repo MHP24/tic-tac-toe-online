@@ -1,4 +1,4 @@
-import { type TGameSetupConfig, type TGame, type TPlayer } from '../../types'
+import { type TGameSetupConfig, type TGame, type TPlayer, type TGameSelection } from '../../types'
 
 const games = new Map<string, TGame>()
 
@@ -40,3 +40,53 @@ export const addPlayer = (gameId: string): TPlayer | null => {
 
   return null
 }
+
+type Turn = {
+  time: number
+  player: TPlayer
+}
+
+export const passTurn = (roomId: string): Turn => {
+  const { turn, turnTime } = get(roomId)!
+
+  const nextTurn: Turn = !turn
+    ? { player: 'P1', time: turnTime }
+    : { player: turn === 'P1' ? 'P2' : 'P1', time: turnTime }
+
+  return nextTurn
+}
+
+export const updateTurn = (id: string, nextTurn: TPlayer): void => {
+  const game = get(id)
+  game && (
+    games.set(id, {
+      ...game,
+      players: game.players.map(player => (
+        {
+          ...player,
+          data: {
+            ...player.data,
+            isPlaying: player.player === nextTurn
+          }
+        }
+      ))
+    })
+  )
+}
+
+type TNextTurn = {
+  table: TGameSelection[][]
+} & Turn
+
+export const handleNextTurn = (roomId: string): TNextTurn => {
+  const nextTurn = passTurn(roomId)
+  updateTurn(roomId, nextTurn.player)
+  return { ...nextTurn, table: get(roomId)!.table }
+}
+
+// TODO: recieve turn (Emit new data)
+
+// TODO: Tout for turns
+// const skipTurn = (roomId: string) => {
+
+// }

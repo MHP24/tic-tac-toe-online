@@ -14,7 +14,7 @@ export type TGame = {
   totalRounds: number
   turnTime: number
   currentRound?: number
-  turn?: 'P1' | 'P2'
+  turn?: TPlayer
   players: TGamePlayer[]
   table: TGameSelection[][]
 }
