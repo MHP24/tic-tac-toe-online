@@ -17,6 +17,7 @@ export type TGame = {
   turn?: TPlayer
   players: TGamePlayer[]
   table: TGameSelection[][]
+  tout?: any
 }
 
 export type TGameSetupConfig = {
