@@ -9,10 +9,8 @@ export const Game = () => {
 
       {
         // TODO: create timer component
-        // players.find(({ player }) => player === client)?.data.isPlaying && (
 
-        // )
-        isTurn && <p>Is your turn! time remaining {}s</p>
+        isTurn && <p className='fixed '>Is your turn! time remaining {}s</p>
       }
 
       {/* Table */}

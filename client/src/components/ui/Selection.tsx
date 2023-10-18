@@ -24,15 +24,13 @@ export const Selection: FC<Props> = ({ selection, coords: { i, j } }) => {
     emitTurn(i, j, playerSelection[player!] as TSelection)
   }
 
-  const border = selection !== '' ? 'border-white' : 'border-gray-600'
   return (
     <div
       onClick={select}
-      className={`grid items-center text-center
-        border-2 ${border} rounded-md select-none`}
+      className='grid items-center text-center border-2 border-gray-500 rounded-lg select-none'
     >
       <p className={
-        `w-full font-primary text-6xl md:text-7xl lg:text-9xl ${colors[selection]}`
+        `w-full font-primary text-7xl lg:text-9xl ${colors[selection]}`
       }>
         {selection}
       </p>
