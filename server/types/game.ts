@@ -23,3 +23,11 @@ export type TGameSetupConfig = {
   totalRounds: number
   turnTime: number
 }
+
+export type TGameTurn = {
+  roomId: string
+  i: number
+  j: number
+  selection: TGameSelection
+  player: TPlayer
+}

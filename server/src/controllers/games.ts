@@ -1,4 +1,4 @@
-import { type TGameSetupConfig, type TGame, type TPlayer, type TGameSelection } from '../../types'
+import { type TGameSetupConfig, type TGame, type TPlayer, type TGameSelection, type TGameTurn } from '../../types'
 
 const games = new Map<string, TGame>()
 
@@ -42,7 +42,7 @@ export const addPlayer = (gameId: string): TPlayer | null => {
 }
 
 type Turn = {
-  time: number
+  turnTime: number
   player: TPlayer
 }
 
@@ -50,8 +50,8 @@ export const passTurn = (roomId: string): Turn => {
   const { turn, turnTime } = get(roomId)!
 
   const nextTurn: Turn = !turn
-    ? { player: 'P1', time: turnTime }
-    : { player: turn === 'P1' ? 'P2' : 'P1', time: turnTime }
+    ? { player: 'P1', turnTime }
+    : { player: turn === 'P1' ? 'P2' : 'P1', turnTime }
 
   return nextTurn
 }
@@ -61,6 +61,7 @@ export const updateTurn = (id: string, nextTurn: TPlayer): void => {
   game && (
     games.set(id, {
       ...game,
+      turn: nextTurn,
       players: game.players.map(player => (
         {
           ...player,
@@ -81,12 +82,23 @@ type TNextTurn = {
 export const handleNextTurn = (roomId: string): TNextTurn => {
   const nextTurn = passTurn(roomId)
   updateTurn(roomId, nextTurn.player)
+
+  // TODO: implement tout
+
   return { ...nextTurn, table: get(roomId)!.table }
 }
 
-// TODO: recieve turn (Emit new data)
+export const receiveTurn = (
+  { roomId, i, j, selection, player }: TGameTurn
+): TGameSelection[][] | null => {
+  const { turn, table } = get(roomId)!
+  if (player !== turn || !table[i][j]) return null
+
+  table[i][j] = selection
+  return table
+}
 
 // TODO: Tout for turns
-// const skipTurn = (roomId: string) => {
+// const skipTurn = (roomId: string, time: number) => {
 
 // }
