@@ -59,6 +59,7 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
       return {
         ...state,
         ...rest,
+        isTurn: turnPlayer === state.player,
         players: state.players.map(({ player, data }) => ({
           player,
           data: {

@@ -1,13 +1,17 @@
 import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
-import { type TGameStart, type TGameAssignment, type TGameSetupConfig, type TGameState, type TGameTurn } from '../../types'
+import { useNavigate } from 'react-router-dom'
+import {
+  type TGameStart, type TGameAssignment, type TGameSetupConfig,
+  type TGameState, type TGameTurn, type TSelection
+} from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
 import { generateId } from '../../utils'
-import { useNavigate } from 'react-router-dom'
 
 const INITIAL_STATE: TGameState = {
   currentRound: 0,
   player: undefined,
+  isTurn: false,
   sessionId: undefined,
   players: [],
   room: undefined,
@@ -74,8 +78,13 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch({ type: '[Game] - Receive turn', payload: data })
   }
 
+  const emitTurn = (i: number, j: number, selection: TSelection) => {
+    console.log({ i, j, selection, player: state.player })
+    emit('[Game] - Turn', { i, j, selection, roomId: state.room, player: state.player })
+  }
+
   return (
-    <GameContext.Provider value={{ ...state, createGame, joinGame }}>
+    <GameContext.Provider value={{ ...state, createGame, joinGame, emitTurn }}>
       {children}
     </GameContext.Provider>
   )

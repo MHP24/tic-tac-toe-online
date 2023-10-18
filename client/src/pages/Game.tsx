@@ -2,16 +2,17 @@ import { Table } from '../components/ui'
 import { useGame } from '../hooks'
 
 export const Game = () => {
-  const { table, players, player: client } = useGame()
+  const { table, isTurn } = useGame()
 
   return (
     <section className='h-screen flex flex-col pt-10 gap-5'>
 
       {
-        players.find(({ player }) => player === client)?.data.isPlaying && (
-          // TODO: create timer component
-          <p>Is your turn! time remaining {}s</p>
-        )
+        // TODO: create timer component
+        // players.find(({ player }) => player === client)?.data.isPlaying && (
+
+        // )
+        isTurn && <p>Is your turn! time remaining {}s</p>
       }
 
       {/* Table */}

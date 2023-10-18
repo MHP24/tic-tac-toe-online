@@ -18,10 +18,10 @@ const colors = {
 }
 
 export const Selection: FC<Props> = ({ selection, coords: { i, j } }) => {
-  const { player } = useGame()
+  const { player, emitTurn } = useGame()
 
   const select = () => {
-    console.log({ i, j, selection: playerSelection[player!] })
+    emitTurn(i, j, playerSelection[player!] as TSelection)
   }
 
   const border = selection !== '' ? 'border-white' : 'border-gray-600'

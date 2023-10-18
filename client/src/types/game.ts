@@ -15,6 +15,7 @@ export type TGamePlayer = {
 export type TGameProvider = {
   room?: string
   player?: TGamePlayerSide
+  isTurn?: boolean
   sessionId?: string
   turnTime?: number
   totalRounds?: number
@@ -51,6 +52,7 @@ export type TGameStart = {
 export type TGameContext = {
   createGame: (data: TGameSetupConfig) => void
   joinGame: (roomId: string) => void
+  emitTurn: (i: number, j: number, selection: TSelection) => void
 } & TGameProvider
 
 export type TGameState = & TGameProvider
