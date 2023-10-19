@@ -79,8 +79,14 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const emitTurn = (i: number, j: number, selection: TSelection) => {
-    console.log({ i, j, selection, player: state.player })
-    emit('[Game] - Turn', { i, j, selection, roomId: state.room, player: state.player })
+    emit('[Game] - Turn', {
+      i,
+      j,
+      selection,
+      roomId:
+      state.room,
+      player: state.player
+    })
   }
 
   return (

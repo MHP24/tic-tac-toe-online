@@ -8,17 +8,17 @@ type Props = {
 
 export const Table: FC<Props> = ({ selections }) => {
   return (
-    <div className='grid grid-rows-3 gap-4 m-auto
-      w-[28rem] h-[28rem] md:w-[34rem] md:h-[34rem] lg:w-[45rem] lg:h-[45rem]'>
+    <ol className='grid grid-cols-3 gap-4 m-auto
+      w-full h-full'>
       {
         selections.map(([x, y, z], i) => (
-          <div key={`table-row-${i}`} className='grid grid-cols-3 gap-4'>
-            <Selection selection={x} coords={{ i, j: 0 }}/>
-            <Selection selection={y} coords={{ i, j: 1 }}/>
-            <Selection selection={z} coords={{ i, j: 2 }}/>
-          </div>
+          <>
+            <Selection key={`selector-${i}-x`} selection={x} coords={{ i, j: 0 }}/>
+            <Selection key={`selector-${i}-y`} selection={y} coords={{ i, j: 1 }}/>
+            <Selection key={`selector-${i}-z`} selection={z} coords={{ i, j: 2 }}/>
+          </>
         ))
       }
-    </div>
+    </ol>
   )
 }

@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { type TSelection } from '../../types'
 import { useGame } from '../../hooks'
-import { playerSelection } from '../../mocks'
+import { colors, playerSelection } from '../../mocks'
 
 type Props = {
   selection: TSelection
@@ -11,29 +11,23 @@ type Props = {
   }
 }
 
-const colors = {
-  X: 'text-shadow-blue',
-  O: 'text-shadow-red',
-  '': ''
-}
-
 export const Selection: FC<Props> = ({ selection, coords: { i, j } }) => {
-  const { player, emitTurn } = useGame()
+  const { player, emitTurn, isTurn } = useGame()
 
   const select = () => {
-    emitTurn(i, j, playerSelection[player!] as TSelection)
+    isTurn && emitTurn(i, j, playerSelection[player!] as TSelection)
   }
 
   return (
-    <div
+    <li
       onClick={select}
-      className='grid items-center text-center border-2 border-gray-500 rounded-lg select-none'
+      className='grid items-center text-center border-2 border-gray-500 rounded-lg select-none aspect-square'
     >
       <p className={
-        `w-full font-primary text-7xl lg:text-9xl ${colors[selection]}`
+        `w-full font-primary text-7xl md:text-8xl lg:text-9xl ${colors[selection]}`
       }>
         {selection}
       </p>
-    </div>
+    </li>
   )
 }
