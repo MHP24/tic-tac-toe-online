@@ -38,15 +38,33 @@ export const onJoin = async (roomId: string, socket: Socket): Promise<void> => {
 }
 
 export const onTurn = async (data: TGameTurn): Promise<void> => {
-  const { roomId } = data
+  const { roomId, player, selection } = data
 
-  const { turn = null } = games.get(data.roomId)!
-  console.log({ turn })
-  if (turn !== data.player) return
+  const { turn = null } = games.get(roomId)!
+  if (turn !== player) return
 
   const table = games.receiveTurn(data)
 
-  // TODO: Check if win
+  const tableStatus = games.checkWinner(roomId, selection)
+  const game = games.get(roomId)
+
+  if (!tableStatus || !game) return
+
+  const { hasWinner, isFull } = tableStatus
+
+  if (isFull || hasWinner) {
+    const { currentRound, totalRounds } =
+      game as { currentRound: number, totalRounds: number }
+
+    (currentRound + 1) < totalRounds
+      ? io.to(roomId).emit('[Game] - Next round', {
+        winner: isFull && !hasWinner ? null : player
+      })
+      : io.to(roomId).emit('[Game] - Finished', game.players)
+
+    return
+  }
+
   table && (
     emitNextTurn(roomId)
   )

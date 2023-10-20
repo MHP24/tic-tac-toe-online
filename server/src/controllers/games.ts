@@ -1,5 +1,11 @@
 import { emitNextTurn } from '.'
-import { type TGameSetupConfig, type TGame, type TPlayer, type TGameSelection, type TGameTurn } from '../../types'
+import {
+  type TGameSetupConfig,
+  type TGame,
+  type TPlayer,
+  type TGameSelection,
+  type TGameTurn
+} from '../../types'
 
 const games = new Map<string, TGame>()
 
@@ -25,8 +31,6 @@ export const addPlayer = (gameId: string): TPlayer | null => {
 
   if (game && game.players.length < 2) {
     const player = `P${game.players.length + 1}` as TPlayer
-
-    console.log({ player })
 
     game.players.push({
       player,
@@ -110,4 +114,33 @@ export const receiveTurn = (
 
   table[i][j] = selection
   return table
+}
+
+// check if table is full
+
+type TableStatus = {
+  hasWinner: boolean
+  isFull: boolean
+}
+
+export const checkWinner = (roomId: string, piece: TGameSelection): null | TableStatus => {
+  const table = get(roomId)?.table
+  if (!table) return null
+
+  const winPiece = piece.repeat(3)
+
+  const rectWon = table.some((row, i) => (
+    row.join('') === winPiece ||
+    table[0][i] + table[1][i] + table[2][i] === winPiece
+  ))
+
+  const diagLeftWon = table
+    .map((_, i) => table[i][i]).join('') === winPiece
+  const diagRightWon = table
+    .map((_, i) => table[i].at((i + 1) * -1)).join('') === winPiece
+
+  return {
+    hasWinner: rectWon || diagLeftWon || diagRightWon,
+    isFull: table.flat().every(slot => slot !== '')
+  }
 }
