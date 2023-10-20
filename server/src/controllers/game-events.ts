@@ -32,7 +32,9 @@ export const onJoin = async (roomId: string, socket: Socket): Promise<void> => {
   console.log(`Player ${socket.id} joined in room: ${roomId}`)
 
   if (player === 'P2') {
-    io.to(roomId).emit('[Game] - Start', { ...games.get(roomId), room: roomId })
+    io.to(roomId).emit('[Game] - Start', {
+      ...games.get(roomId), room: roomId
+    })
     emitNextTurn(roomId)
   }
 }
@@ -44,7 +46,6 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
   if (turn !== player) return
 
   const table = games.receiveTurn(data)
-
   const tableStatus = games.checkWinner(roomId, selection)
   const game = games.get(roomId)
 
@@ -52,22 +53,20 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
 
   const { hasWinner, isFull } = tableStatus
 
-  if (isFull || hasWinner) {
-    const { currentRound, totalRounds } =
-      game as { currentRound: number, totalRounds: number }
-
-    (currentRound + 1) < totalRounds
-      ? io.to(roomId).emit('[Game] - Next round', {
-        winner: isFull && !hasWinner ? null : player
-      })
-      : io.to(roomId).emit('[Game] - Finished', game.players)
-
-    return
+  if (!isFull && !hasWinner && table) {
+    emitNextTurn(roomId); return
   }
 
-  table && (
-    emitNextTurn(roomId)
+  const { currentRound, totalRounds } = game as (
+    { currentRound: number, totalRounds: number }
   )
+
+  currentRound + 1 < totalRounds
+    ? io.to(roomId).emit('[Game] - Next round', {
+      winner: isFull && !hasWinner ? null : player,
+      table: games.resetTable(roomId)
+    })
+    : io.to(roomId).emit('[Game] - Finished', game.players)
 }
 
 /* Emitters */

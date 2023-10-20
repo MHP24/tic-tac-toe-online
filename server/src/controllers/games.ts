@@ -144,3 +144,18 @@ export const checkWinner = (roomId: string, piece: TGameSelection): null | Table
     isFull: table.flat().every(slot => slot !== '')
   }
 }
+
+export const resetTable = (roomId: string): TGameSelection[][] => {
+  const emptyTable: TGameSelection[][] = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+  ]
+
+  games.set(roomId, {
+    ...get(roomId)!,
+    table: emptyTable
+  })
+
+  return emptyTable
+}
