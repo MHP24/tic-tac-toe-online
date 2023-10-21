@@ -182,7 +182,8 @@ export const addWin = (roomId: string, winner: TPlayer): TGamePlayer[] | null =>
         player,
         data: {
           ...data,
-          wins: player === winner ? data.wins + 1 : data.wins
+          wins: player === winner ? data.wins + 1 : data.wins,
+          isPlaying: player !== winner
         }
       }
     ))

@@ -73,7 +73,7 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
     return
   }
 
-  io.to(roomId).emit('[Game] - Finished', game.players)
+  io.to(roomId).emit('[Game] - Finished', { players: game.players, table: game.table })
 }
 
 /* Emitters */
