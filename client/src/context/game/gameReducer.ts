@@ -2,7 +2,8 @@ import {
   type TGameStart,
   type TGameAssignment,
   type TGameState,
-  type TGameTurn
+  type TGameTurn,
+  type TGameRound
 } from '../../types'
 
 export type TAction = {
@@ -17,10 +18,12 @@ export type TAction = {
 } | {
   type: '[Game] - Start'
   payload: TGameStart
-} |
-{
+} | {
   type: '[Game] - Receive turn'
   payload: TGameTurn
+} | {
+  type: '[Game] - Next round'
+  payload: TGameRound
 }
 
 export const gameReducer = (state: TGameState, action: TAction): TGameState => {
@@ -67,6 +70,15 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
             isPlaying: player === turnPlayer
           }
         }))
+      }
+
+    case '[Game] - Next round':
+      const { table, round, players: playerWins } = action.payload
+      return {
+        ...state,
+        table,
+        currentRound: round,
+        players: playerWins ?? state.players
       }
 
     default:

@@ -62,3 +62,10 @@ export type TGameTurn = {
   player: TGamePlayerSide
   table: TSelection[][]
 }
+
+export type TGameRound = {
+  winner: TGamePlayerSide | null
+  table: TSelection[][]
+  round: number
+  players: TGamePlayer[] | null
+}

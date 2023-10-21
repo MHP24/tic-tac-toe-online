@@ -2,7 +2,7 @@ import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   type TGameStart, type TGameAssignment, type TGameSetupConfig,
-  type TGameState, type TGameTurn, type TSelection
+  type TGameState, type TGameTurn, type TSelection, type TGameRound
 } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
@@ -33,6 +33,10 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
       on<TGameAssignment>('[Game] - Joined', addPlayer)
       on<TGameStart>('[Game] - Start', startGame)
       on<TGameTurn>('[Game] - Turn', receiveTurn)
+      on<TGameRound>('[Game] - Next round', nextRound)
+      on<any>('[Game] - Finished', (data2) => { console.log({ data2 }) })
+
+      // '[Game] - Finished'
     }
   }, [status])
 
@@ -87,6 +91,11 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
       state.room,
       player: state.player
     })
+  }
+
+  const nextRound = (data: TGameRound) => {
+    console.log({ data })
+    dispatch({ type: '[Game] - Next round', payload: data })
   }
 
   return (

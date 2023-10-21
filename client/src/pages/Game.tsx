@@ -12,7 +12,7 @@ export const Game = () => {
       <div className='text-center font-primary h-[10vh] grid grid-cols-3 relative'>
         <PlayerCard {...{ isTurn: isTurn!, ...p1, color: 'blue' }}/>
         <div>
-          <h2 className='text-4xl lg:text-5xl'>Round {currentRound + 1}/{totalRounds! - (currentRound)}</h2>
+          <h2 className='text-4xl lg:text-5xl'>Round {currentRound}/{totalRounds}</h2>
           <h3 className={`text-3xl lg:text-4xl mt-4 ${colors[playerSelection[turn]]}`}>
             {`${turn}'s turn`}
           </h3>
