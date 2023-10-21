@@ -4,7 +4,8 @@ import {
   type TGame,
   type TPlayer,
   type TGameSelection,
-  type TGameTurn
+  type TGameTurn,
+  type TGamePlayer
 } from '../../types'
 
 const games = new Map<string, TGame>()
@@ -14,6 +15,7 @@ export const create = (id: string, data: TGameSetupConfig): void => {
     ...data,
     totalRounds: data.totalRounds,
     turnTime: data.turnTime,
+    currentRound: 1,
     players: [],
     table: [
       ['', '', ''],
@@ -158,4 +160,40 @@ export const resetTable = (roomId: string): TGameSelection[][] => {
   })
 
   return emptyTable
+}
+
+export const passRound = (roomId: string): number => {
+  const { currentRound, ...rest } = get(roomId)!
+  games.set(roomId, {
+    ...rest,
+    currentRound: currentRound! + 1
+  })
+
+  return currentRound! + 1
+}
+
+export const addWin = (roomId: string, winner: TPlayer): TGamePlayer[] | null => {
+  const game = get(roomId)
+  if (game) {
+    const { players, ...rest } = game
+
+    const playersUpdated = players.map(({ player, data }) => (
+      {
+        player,
+        data: {
+          ...data,
+          wins: player === winner ? data.wins + 1 : data.wins
+        }
+      }
+    ))
+
+    games.set(roomId, {
+      ...rest,
+      players: playersUpdated
+    })
+
+    return playersUpdated
+  }
+
+  return null
 }

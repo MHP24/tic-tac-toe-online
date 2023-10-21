@@ -52,6 +52,7 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
   if (!tableStatus || !game) return
 
   const { hasWinner, isFull } = tableStatus
+  const playerWinsUpdated = hasWinner ? games.addWin(roomId, player) : null
 
   if (!isFull && !hasWinner && table) {
     emitNextTurn(roomId); return
@@ -61,12 +62,18 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
     { currentRound: number, totalRounds: number }
   )
 
-  currentRound + 1 < totalRounds
-    ? io.to(roomId).emit('[Game] - Next round', {
+  if (currentRound + 1 <= totalRounds) {
+    emitNextTurn(roomId)
+    io.to(roomId).emit('[Game] - Next round', {
       winner: isFull && !hasWinner ? null : player,
-      table: games.resetTable(roomId)
+      table: games.resetTable(roomId),
+      round: games.passRound(roomId),
+      players: playerWinsUpdated
     })
-    : io.to(roomId).emit('[Game] - Finished', game.players)
+    return
+  }
+
+  io.to(roomId).emit('[Game] - Finished', game.players)
 }
 
 /* Emitters */
