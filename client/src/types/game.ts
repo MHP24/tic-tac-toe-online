@@ -69,3 +69,8 @@ export type TGameRound = {
   round: number
   players: TGamePlayer[] | null
 }
+
+export type TGameFinish = {
+  players: TGamePlayer[]
+  table: TSelection[][]
+}
