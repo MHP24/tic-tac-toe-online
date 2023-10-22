@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom'
 
 type Props = {
   isOpen: boolean
-  close: () => void
+  close?: () => void
 }
 
 export const Modal: React.FC<React.PropsWithChildren<Props>> = ({ isOpen, close, children }) => {
@@ -15,10 +15,15 @@ export const Modal: React.FC<React.PropsWithChildren<Props>> = ({ isOpen, close,
           relative overflow-y-auto rounded-lg p-3 border-2 border-gray-600 mb-28
           animate__animated animate__zoomIn animate__modalZoomIn'>
 
-          <button className='absolute top-2 right-2 rounded-full hover:bg-c1 hover:opacity-80 bg-c2
-          aspect-square grid items-center w-8 h-8 font-primary'
-          onClick={close}
-          >X</button>
+          {
+            close && (
+              <button className='absolute top-2 right-2 rounded-full hover:bg-c1 hover:opacity-80 bg-c2
+               aspect-square grid items-center w-8 h-8 font-primary'
+              onClick={close}
+              >X</button>
+            )
+
+          }
 
           {children}
         </div>

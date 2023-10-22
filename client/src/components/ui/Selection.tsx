@@ -23,11 +23,17 @@ export const Selection: FC<Props> = ({ selection, coords: { i, j } }) => {
       onClick={select}
       className='grid items-center text-center border-2 border-gray-500 rounded-lg select-none aspect-square'
     >
-      <p className={
-        `w-full font-primary text-7xl md:text-8xl lg:text-9xl ${colors[selection]}`
-      }>
-        {selection}
-      </p>
+      {
+        Boolean(selection) && (
+          <p className={
+            `w-full font-primary text-7xl md:text-8xl lg:text-9xl ${colors[selection]} 
+              animate__animated animate__zoomIn animate__selectionZoomIn`
+          }>
+            {selection}
+          </p>
+        )
+      }
+
     </li>
   )
 }

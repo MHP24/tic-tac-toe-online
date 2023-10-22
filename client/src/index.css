@@ -51,3 +51,7 @@
 .animate__modalZoomIn {
   --animate-duration: 200ms;
 }
+
+.animate__selectionZoomIn {
+  --animate-duration: 200ms;
+}

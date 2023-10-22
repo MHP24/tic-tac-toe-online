@@ -97,9 +97,6 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const finishGame = (data: TGameFinish) => {
     dispatch({ type: '[Game] - Finished', payload: data })
-    setTimeout(() => {
-      navigate('/summary')
-    }, 1000)
   }
 
   return (

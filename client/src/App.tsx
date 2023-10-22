@@ -2,7 +2,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
-import { Lobby, Home, Game, Summary } from './pages'
+import { Lobby, Home, Game } from './pages'
 
 const App = () => {
   return (
@@ -11,7 +11,6 @@ const App = () => {
         <Route path="/" element={<Home/>}/>
         <Route path="/lobby" element={<Lobby/>}/>
         <Route path="/game" element={<Game/>}/>
-        <Route path="/summary" element={<Summary/>}/>
       </Routes>
     </main>
   )
