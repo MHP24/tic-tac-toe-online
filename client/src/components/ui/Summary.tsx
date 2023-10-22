@@ -2,6 +2,7 @@ import { type FC } from 'react'
 import { type TGameStatus, type TGamePlayer } from '../../types'
 import { Button, Modal } from '.'
 import { colors, playerSelection } from '../../mocks'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
   players: TGamePlayer[]
@@ -11,6 +12,8 @@ type Props = {
 
 export const Summary: FC<Props> = ({ players, totalRounds, status }) => {
   const [p1, p2] = players
+  const navigate = useNavigate()
+
   return (
     <Modal isOpen={status === 'Finished'}>
       <div className='flex flex-col items-center gap-5 font-primary w-full py-5'>
@@ -36,7 +39,7 @@ export const Summary: FC<Props> = ({ players, totalRounds, status }) => {
         </ol>
 
         <div className='w-full max-w-sm m-auto'>
-          <Button onClick={() => {}} color='red' label='Return to home' height={3} text='xl'/>
+          <Button onClick={() => { navigate('/') }} color='red' label='Return to home' height={3} text='xl'/>
 
         </div>
       </div>

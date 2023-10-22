@@ -18,6 +18,7 @@ export const Lobby = () => {
 
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text)
+    // TODO: add info copied to clipboard
   }
 
   return (

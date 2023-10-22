@@ -58,7 +58,8 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
       return {
         ...state,
         ...action.payload,
-        status: 'Started'
+        status: 'Started',
+        currentRound: 0
       }
 
     case '[Game] - Receive turn':
@@ -91,7 +92,8 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
         ...state,
         status: 'Finished',
         players: action.payload.players,
-        table: action.payload.table
+        table: action.payload.table,
+        room: undefined
       }
 
     default:

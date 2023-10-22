@@ -1,33 +1,15 @@
 import { useState } from 'react'
-import { useForm, type SubmitHandler } from 'react-hook-form'
-import { Button, Input, Modal } from '../components/ui'
-import { useGame, useModal } from '../hooks'
-import { regex } from '../utils'
-import { useNavigate } from 'react-router-dom'
-
-type Inputs = {
-  time: number
-  rounds: number
-  roomId?: string
-}
+import { Button, Modal } from '../components/ui'
+import { useModal } from '../hooks'
+import { Configuration, JoinGame } from '../components/forms'
 
 export const Home = () => {
   const { open, ...rest } = useModal()
   const [option, setOption] = useState<'join' | 'create'>('create')
 
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
-  const navigate = useNavigate()
-  const { joinGame } = useGame()
-
   const selectOption = (option: 'join' | 'create') => {
     setOption(option)
     open()
-  }
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    option === 'create'
-      ? navigate(`/lobby?rounds=${data.rounds}&time=${data.time}`)
-      : joinGame(data.roomId!)
   }
 
   return (
@@ -35,44 +17,11 @@ export const Home = () => {
       <Modal {...rest}>
         {
           <div className='w-md text-center'>
-            <form className='flex flex-col items-center gap-7 py-5 max-w-md m-auto'
-              onSubmit={handleSubmit(onSubmit)}
-              noValidate
-            >
-              {
-                option === 'join'
-                  ? <>
-                    <h3 className='text-3xl font-primary text-shadow-red'>Enter room code</h3>
-                    <Input
-                      placeholder='Room code'
-                      type='text'
-                      key='input-room-code'
-                      {...register('roomId', { required: true })}
-                    />
-                    <Button color='red' label='Join game' height={3} onClick={() => {}}/>
-                  </>
-                  : <>
-                    <h3 className='text-3xl font-primary text-shadow-red mb-3'>Room configuration</h3>
-                    <Input
-                      placeholder='Seconds'
-                      type='number'
-                      key='input-segs-config'
-                      label='Time per run'
-                      hasError={Boolean(errors?.time)}
-                      {...register('time', { required: false, pattern: regex.numbersOnly })}
-                    />
-                    <Input
-                      placeholder='Count'
-                      type='number'
-                      key='input-rounds-config'
-                      label='Total rounds'
-                      hasError={Boolean(errors?.rounds)}
-                      {...register('rounds', { required: false, pattern: regex.numbersOnly })}
-                    />
-                    <Button color='blue' label='Create' height={3} onClick={() => {}}/>
-                  </>
-              }
-            </form>
+            {
+              option === 'join'
+                ? <JoinGame/>
+                : <Configuration/>
+            }
           </div>
         }
       </Modal>
