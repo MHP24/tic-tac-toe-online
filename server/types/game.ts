@@ -2,6 +2,7 @@ export type TPlayer = 'P1' | 'P2'
 
 export type TGamePlayer = {
   player: TPlayer
+  id?: string
   data: {
     wins: number
     isPlaying: boolean

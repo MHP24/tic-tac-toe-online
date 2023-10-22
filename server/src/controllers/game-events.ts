@@ -1,5 +1,5 @@
 import { type Socket } from 'socket.io'
-import { games } from '.'
+import { games, players } from '.'
 import { type TGameTurn, type TGameSetupConfig } from '../../types'
 import { validateGameProp } from '../utils'
 import { io } from '..'
@@ -19,8 +19,10 @@ export const onGameSetup = ({ roomId, totalRounds, turnTime }: TSetup): void => 
 }
 
 export const onJoin = async (roomId: string, socket: Socket): Promise<void> => {
-  const player = games.addPlayer(roomId)
-  if (!player) return // TODO: Handle players > 2
+  const player = games.addPlayer(roomId, socket.id)
+  if (!player) return
+
+  players.addPlayer(socket.id, roomId)
 
   await socket.join(roomId)
   io.to(roomId).emit('[Game] - Joined', {
@@ -46,6 +48,8 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
   if (turn !== player) return
 
   const table = games.receiveTurn(data)
+  if (!table) return
+
   const tableStatus = games.checkWinner(roomId, selection)
   const game = games.get(roomId)
 
@@ -73,7 +77,29 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
     return
   }
 
-  io.to(roomId).emit('[Game] - Finished', { players: game.players, table: game.table })
+  const finalData = games.get(roomId)!
+  games.drop(roomId)
+
+  io.to(roomId).emit('[Game] - Finished', {
+    players: finalData.players,
+    table: finalData.table
+  })
+}
+
+export const onDisconnect = (socket: Socket): void => {
+  const { id } = socket
+
+  const roomId = players.getRoom(id)
+  if (!roomId) return
+
+  const room = games.get(roomId)
+  if (!room) return
+
+  console.log({ roomLeave: room })
+
+  room.players.forEach(({ id }) => { players.drop(id!) })
+  io.to(roomId).emit('[Game] - Player disconnect')
+  games.drop(roomId)
 }
 
 /* Emitters */

@@ -28,7 +28,7 @@ export const create = (id: string, data: TGameSetupConfig): void => {
 
 export const get = (id: string): TGame | undefined => games.get(id)
 
-export const addPlayer = (gameId: string): TPlayer | null => {
+export const addPlayer = (gameId: string, playerId: string): TPlayer | null => {
   const game = get(gameId)
 
   if (game && game.players.length < 2) {
@@ -36,6 +36,7 @@ export const addPlayer = (gameId: string): TPlayer | null => {
 
     game.players.push({
       player,
+      id: playerId,
       data: {
         wins: 0,
         isPlaying: false
@@ -110,9 +111,9 @@ export const receiveTurn = (
   { roomId, i, j, selection, player }: TGameTurn
 ): TGameSelection[][] | null => {
   const { turn, table, tout } = get(roomId)!
-  clearTimeout(tout)
-
   if (player !== turn || table[i][j] !== '') return null
+
+  clearTimeout(tout)
 
   table[i][j] = selection
   return table
@@ -197,4 +198,8 @@ export const addWin = (roomId: string, winner: TPlayer): TGamePlayer[] | null =>
   }
 
   return null
+}
+
+export const drop = (roomId: string): void => {
+  games.delete(roomId)
 }
