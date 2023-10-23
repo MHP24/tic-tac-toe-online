@@ -9,7 +9,9 @@ import {
   type TSelection,
   type TGameRound,
   type TGameFinish,
-  type TGameClose
+  type TGameClose,
+  type TGameTurnEmit,
+  type TGameFormattedConfig
 } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
@@ -51,16 +53,16 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const setupGame = ({ totalRounds, turnTime }: TGameSetupConfig) => {
     const roomId = generateId()
-    emit('[Game] - Setup', {
+    emit<TGameFormattedConfig>('[Game] - Setup', {
       roomId,
-      totalRounds,
-      turnTime
+      totalRounds: Number(totalRounds),
+      turnTime: Number(turnTime)
     })
     return roomId
   }
 
   const joinGame = (roomId: string) => {
-    emit('[Game] - Join', roomId)
+    emit<string>('[Game] - Join', roomId)
   }
 
   const createGame = (data: TGameSetupConfig) => {
@@ -93,13 +95,12 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const emitTurn = (i: number, j: number, selection: TSelection) => {
-    emit('[Game] - Turn', {
+    emit<TGameTurnEmit>('[Game] - Turn', {
       i,
       j,
       selection,
-      roomId:
-      state.room,
-      player: state.player
+      roomId: state.room!,
+      player: state.player!
     })
   }
 

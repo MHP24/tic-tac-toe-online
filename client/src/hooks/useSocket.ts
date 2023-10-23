@@ -40,14 +40,12 @@ export const useSocket = (url: string) => {
     socket?.on(event, callback)
   }
 
-  const emit = (event: string, data: unknown) => {
+  const emit = <T>(event: string, data: T) => {
     socket?.emit(event, data)
   }
 
   const connect = () => {
-    if (socket) {
-      socket.connect()
-    }
+    socket?.connect()
   }
 
   const disconnect = () => {
