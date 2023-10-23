@@ -93,8 +93,6 @@ export const onDisconnect = (socket: Socket): void => {
   const room = games.get(roomId)
   if (!room) return
 
-  console.log({ roomLeave: room })
-
   room.players.forEach(({ id }) => { players.drop(id!) })
   games.drop(roomId)
   io.to(roomId).emit('[Game] - Player disconnect', { status: 'Closed' })
