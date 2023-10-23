@@ -28,6 +28,8 @@ export const create = (id: string, data: TGameSetupConfig): void => {
 
 export const get = (id: string): TGame | undefined => games.get(id)
 
+export const getCount = (): number => games.size
+
 export const addPlayer = (gameId: string, playerId: string): TPlayer | null => {
   const game = get(gameId)
 

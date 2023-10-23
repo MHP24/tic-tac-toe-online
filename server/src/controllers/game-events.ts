@@ -37,6 +37,7 @@ export const onJoin = async (roomId: string, socket: Socket): Promise<void> => {
     io.to(roomId).emit('[Game] - Start', {
       ...games.get(roomId), room: roomId
     })
+    emitMatchCount()
     emitNextTurn(roomId)
   }
 }
@@ -96,9 +97,14 @@ export const onDisconnect = (socket: Socket): void => {
   room.players.forEach(({ id }) => { players.drop(id!) })
   games.drop(roomId)
   io.to(roomId).emit('[Game] - Player disconnect', { status: 'Closed' })
+  emitMatchCount()
 }
 
 /* Emitters */
 export const emitNextTurn = (roomId: string): void => {
   io.to(roomId).emit('[Game] - Turn', games.handleNextTurn(roomId))
+}
+
+export const emitMatchCount = (socket: Socket | null = null): void => {
+  (socket ?? io).emit('[Game] - Game count', games.getCount())
 }
