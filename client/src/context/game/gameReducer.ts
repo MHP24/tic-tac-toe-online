@@ -32,6 +32,9 @@ export type TAction = {
 } | {
   type: '[Game] - Close'
   payload: { initialState: TGameState, status: TGameStatus }
+} | {
+  type: '[Game] - Update count'
+  payload: number
 }
 
 export const gameReducer = (state: TGameState, action: TAction): TGameState => {
@@ -104,6 +107,12 @@ export const gameReducer = (state: TGameState, action: TAction): TGameState => {
       return {
         ...action.payload.initialState,
         status: action.payload.status
+      }
+
+    case '[Game] - Update count':
+      return {
+        ...state,
+        currentGames: action.payload
       }
 
     default:

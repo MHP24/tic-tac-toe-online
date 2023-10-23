@@ -36,18 +36,20 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const {
     on, emit, status, socket, connect, disconnect
   } = useSocket(import.meta.env.VITE_SERVER_URL)
+
   const navigate = useNavigate()
 
   useEffect(() => {
     if (status === 'online') {
       dispatch({ type: '[Session] - Update ID', payload: `${socket?.id}` })
-
+      emit('ready', null)
       on<TGameAssignment>('[Game] - Joined', addPlayer)
       on<TGameStart>('[Game] - Start', startGame)
       on<TGameTurn>('[Game] - Turn', receiveTurn)
       on<TGameRound>('[Game] - Next round', nextRound)
       on<TGameFinish>('[Game] - Finished', finishGame)
       on<TGameClose>('[Game] - Player disconnect', closeGame)
+      on<number>('[Game] - Game count', updateCurrentGames)
     }
   }, [status])
 
@@ -124,6 +126,10 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
     disconnect()
     connect()
     navigate('/?reason=closed')
+  }
+
+  const updateCurrentGames = (data: number) => {
+    dispatch({ type: '[Game] - Update count', payload: data })
   }
 
   return (
