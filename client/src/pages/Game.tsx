@@ -6,7 +6,7 @@ import { colors, playerSelection } from '../mocks'
 export const Game = () => {
   const { table, isTurn, currentRound, players, totalRounds, status } = useGame()
   const [p1, p2] = players
-  const turn = players.find(({ data }) => data.isPlaying)!.player
+  const turn = players?.find(({ data }) => data.isPlaying)!.player
 
   return (
     <>

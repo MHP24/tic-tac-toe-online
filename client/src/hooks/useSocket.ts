@@ -44,10 +44,29 @@ export const useSocket = (url: string) => {
     socket?.emit(event, data)
   }
 
+  const connect = () => {
+    if (socket) {
+      socket.connect()
+    }
+  }
+
+  const disconnect = () => {
+    if (socket) {
+      socket.disconnect()
+      setSocketState({
+        ...socketState,
+        socket: undefined,
+        status: 'offline'
+      })
+    }
+  }
+
   return {
     on,
     emit,
     socket,
-    status
+    status,
+    connect,
+    disconnect
   }
 }

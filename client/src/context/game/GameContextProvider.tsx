@@ -31,10 +31,10 @@ const INITIAL_STATE: TGameState = {
 
 export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_STATE)
-  const { on, emit, status, socket } = useSocket(import.meta.env.VITE_SERVER_URL)
+  const {
+    on, emit, status, socket, connect, disconnect
+  } = useSocket(import.meta.env.VITE_SERVER_URL)
   const navigate = useNavigate()
-
-  // has been removed but not disconnected
 
   useEffect(() => {
     if (status === 'online') {
@@ -120,8 +120,9 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     })
 
-    navigate('/?reason=closed', { replace: true })
-    navigate(0)
+    disconnect()
+    connect()
+    navigate('/?reason=closed')
   }
 
   return (
