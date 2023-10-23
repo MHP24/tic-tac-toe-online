@@ -44,7 +44,7 @@ export const onJoin = async (roomId: string, socket: Socket): Promise<void> => {
 export const onTurn = async (data: TGameTurn): Promise<void> => {
   const { roomId, player, selection } = data
 
-  const { turn = null } = games.get(roomId)!
+  const { turn = null } = games.get(roomId) ?? {}
   if (turn !== player) return
 
   const table = games.receiveTurn(data)
@@ -87,9 +87,7 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
 }
 
 export const onDisconnect = (socket: Socket): void => {
-  const { id } = socket
-
-  const roomId = players.getRoom(id)
+  const roomId = players.getRoom(socket.id)
   if (!roomId) return
 
   const room = games.get(roomId)
@@ -98,8 +96,8 @@ export const onDisconnect = (socket: Socket): void => {
   console.log({ roomLeave: room })
 
   room.players.forEach(({ id }) => { players.drop(id!) })
-  io.to(roomId).emit('[Game] - Player disconnect')
   games.drop(roomId)
+  io.to(roomId).emit('[Game] - Player disconnect', { status: 'Closed' })
 }
 
 /* Emitters */

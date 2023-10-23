@@ -99,7 +99,10 @@ type TNextTurn = {
   table: TGameSelection[][]
 } & Turn
 
-export const handleNextTurn = (roomId: string): TNextTurn => {
+export const handleNextTurn = (roomId: string): TNextTurn | null => {
+  const room = get(roomId)
+  if (!room) return null
+
   const { player, turnTime } = passTurn(roomId)
   updateTurn(roomId, player)
   skipTurn(roomId, turnTime)
@@ -110,7 +113,10 @@ export const handleNextTurn = (roomId: string): TNextTurn => {
 export const receiveTurn = (
   { roomId, i, j, selection, player }: TGameTurn
 ): TGameSelection[][] | null => {
-  const { turn, table, tout } = get(roomId)!
+  const room = get(roomId)
+  if (!room) return null
+
+  const { turn, table, tout } = room
   if (player !== turn || table[i][j] !== '') return null
 
   clearTimeout(tout)
@@ -118,8 +124,6 @@ export const receiveTurn = (
   table[i][j] = selection
   return table
 }
-
-// check if table is full
 
 type TableStatus = {
   hasWinner: boolean
