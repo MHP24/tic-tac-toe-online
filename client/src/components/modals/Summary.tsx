@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 import { type TGameStatus, type TGamePlayer } from '../../types'
-import { Button, Modal } from '.'
+import { Button, Modal } from '../ui'
 import { colors, playerSelection } from '../../mocks'
 import { useNavigate } from 'react-router-dom'
 
@@ -31,8 +31,8 @@ export const Summary: FC<Props> = ({ players, totalRounds, status }) => {
           {
             players.map(({ data, player }, i) => (
               <li key={`player-${player}-${i}`} className='w-full text-center'>
-                <h3 className={`text-xl md:text-2xl ${colors[playerSelection[player]]}`}>Player {player}</h3>
-                <h4 className='text-xl md:text-2xl'>{`${data.wins} Win${data.wins > 1 || data.wins === 0 ? 's' : ''}`}</h4>
+                <h3 className={`text-2xl md:text-3xl ${colors[playerSelection[player]]}`}>Player {player}</h3>
+                <h4 className='text-2xl md:text-3xl'>{`${data.wins} Win${data.wins > 1 || data.wins === 0 ? 's' : ''}`}</h4>
               </li>
             ))
           }

@@ -1,4 +1,5 @@
-import { PlayerCard, Summary, Table } from '../components/ui'
+import { PlayerCard, Table } from '../components/ui'
+import { Summary } from '../components/modals'
 import { useGame } from '../hooks'
 import { colors, playerSelection } from '../mocks'
 

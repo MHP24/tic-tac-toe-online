@@ -2,13 +2,14 @@ import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   type TGameStart, type TGameAssignment, type TGameSetupConfig,
-  type TGameState, type TGameTurn, type TSelection, type TGameRound, type TGameFinish
+  type TGameState, type TGameTurn, type TSelection, type TGameRound, type TGameFinish, type TGameClose
 } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
 import { generateId } from '../../utils'
 
 const INITIAL_STATE: TGameState = {
+  currentGames: 0,
   currentRound: 0,
   player: undefined,
   isTurn: false,
@@ -35,10 +36,10 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
       on<TGameTurn>('[Game] - Turn', receiveTurn)
       on<TGameRound>('[Game] - Next round', nextRound)
       on<TGameFinish>('[Game] - Finished', finishGame)
+      on<TGameClose>('[Game] - Player disconnect', closeGame)
     }
   }, [status])
 
-  // Request for a game as host
   const setupGame = ({ totalRounds, turnTime }: TGameSetupConfig) => {
     const roomId = generateId()
     emit('[Game] - Setup', {
@@ -77,7 +78,9 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   const receiveTurn = (data: TGameTurn) => {
-    dispatch({ type: '[Game] - Receive turn', payload: data })
+    data && (
+      dispatch({ type: '[Game] - Receive turn', payload: data })
+    )
   }
 
   const emitTurn = (i: number, j: number, selection: TSelection) => {
@@ -99,8 +102,27 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch({ type: '[Game] - Finished', payload: data })
   }
 
+  const closeGame = (data: TGameClose) => {
+    dispatch({
+      type: '[Game] - Close',
+      payload: {
+        initialState: INITIAL_STATE,
+        status: data.status
+      }
+    })
+
+    navigate('/')
+  }
+
   return (
-    <GameContext.Provider value={{ ...state, createGame, joinGame, emitTurn }}>
+    <GameContext.Provider
+      value={{
+        ...state,
+        createGame,
+        joinGame,
+        emitTurn
+      }}
+    >
       {children}
     </GameContext.Provider>
   )

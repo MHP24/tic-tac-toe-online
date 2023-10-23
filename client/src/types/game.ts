@@ -1,6 +1,6 @@
 import { type TSelection } from '.'
 
-export type TGameStatus = 'Creating' | 'Queuing' | 'Started' | 'Finished'
+export type TGameStatus = 'Creating' | 'Queuing' | 'Started' | 'Finished' | 'Closed'
 
 export type TGamePlayerSide = 'P1' | 'P2'
 
@@ -13,6 +13,7 @@ export type TGamePlayer = {
 }
 
 export type TGameProvider = {
+  currentGames: number
   room?: string
   player?: TGamePlayerSide
   isTurn?: boolean
@@ -73,4 +74,8 @@ export type TGameRound = {
 export type TGameFinish = {
   players: TGamePlayer[]
   table: TSelection[][]
+}
+
+export type TGameClose = {
+  status: TGameStatus
 }
