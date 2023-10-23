@@ -1,6 +1,7 @@
 import { type FC } from 'react'
 import { type TGameStatus, type TGamePlayer } from '../../types'
-import { Button, Modal } from '../ui'
+import { Modal } from '.'
+import { Button } from '../ui'
 import { colors, playerSelection } from '../../mocks'
 import { useNavigate } from 'react-router-dom'
 

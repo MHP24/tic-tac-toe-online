@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Button, Modal } from '../components/ui'
+import { Button } from '../components/ui'
+import { Modal, Configuration, JoinGame, Leave } from '../components/modals'
 import { useGame, useModal, useQuery } from '../hooks'
-import { Configuration, JoinGame, Leave } from '../components/modals'
 
 export const Home = () => {
   const { open, ...rest } = useModal()

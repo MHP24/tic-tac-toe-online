@@ -55,3 +55,7 @@
 .animate__selectionZoomIn {
   --animate-duration: 200ms;
 }
+
+.animate__toast {
+  --animate-duration: 200ms;
+}

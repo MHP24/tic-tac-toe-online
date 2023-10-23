@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 import { useModal } from '../../hooks'
-import { Modal } from '../ui'
+import { Modal } from '.'
 
 type Props = {
   reason: string

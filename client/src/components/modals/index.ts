@@ -1,3 +1,4 @@
+export * from './Modal'
 export * from './Configuration'
 export * from './JoinGame'
 export * from './Summary'
