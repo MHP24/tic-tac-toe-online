@@ -1,14 +1,13 @@
 import { type FC } from 'react'
 import { useModal } from '../../hooks'
-import { type TGameStatus } from '../../types'
 import { Modal } from '../ui'
 
 type Props = {
-  status: TGameStatus
+  reason: string
 }
 
-export const Leave: FC<Props> = ({ status }) => {
-  const modal = useModal(status === 'Closed')
+export const Leave: FC<Props> = ({ reason }) => {
+  const modal = useModal(reason === 'closed')
 
   return (
     <Modal {...modal}>

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Button, Modal } from '../components/ui'
-import { useGame, useModal } from '../hooks'
+import { useGame, useModal, useQuery } from '../hooks'
 import { Configuration, JoinGame, Leave } from '../components/modals'
 
 export const Home = () => {
   const { open, ...rest } = useModal()
   const [option, setOption] = useState<'join' | 'create'>('create')
-  const { currentGames, status } = useGame()
+
+  const { currentGames } = useGame()
+  const query = useQuery()
 
   const selectOption = (option: 'join' | 'create') => {
     setOption(option)
@@ -27,7 +29,7 @@ export const Home = () => {
         }
       </Modal>
 
-      <Leave {...{ status }}/>
+      <Leave reason={query.get('reason') ?? ''}/>
 
       <section className='flex flex-col gap-16 justify-center h-screen p-10'>
         <h1 className='font-primary text-6xl md:text-7xl lg:text-8xl

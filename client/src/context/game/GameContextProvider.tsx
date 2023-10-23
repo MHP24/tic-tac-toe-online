@@ -1,8 +1,15 @@
 import { type FC, type PropsWithChildren, useReducer, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  type TGameStart, type TGameAssignment, type TGameSetupConfig,
-  type TGameState, type TGameTurn, type TSelection, type TGameRound, type TGameFinish, type TGameClose
+  type TGameStart,
+  type TGameAssignment,
+  type TGameSetupConfig,
+  type TGameState,
+  type TGameTurn,
+  type TSelection,
+  type TGameRound,
+  type TGameFinish,
+  type TGameClose
 } from '../../types'
 import { GameContext, gameReducer } from '.'
 import { useSocket } from '../../hooks'
@@ -26,6 +33,8 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, INITIAL_STATE)
   const { on, emit, status, socket } = useSocket(import.meta.env.VITE_SERVER_URL)
   const navigate = useNavigate()
+
+  // has been removed but not disconnected
 
   useEffect(() => {
     if (status === 'online') {
@@ -111,7 +120,8 @@ export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     })
 
-    navigate('/')
+    navigate('/?reason=closed', { replace: true })
+    navigate(0)
   }
 
   return (
