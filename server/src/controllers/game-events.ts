@@ -85,6 +85,7 @@ export const onTurn = async (data: TGameTurn): Promise<void> => {
     players: finalData.players,
     table: finalData.table
   })
+  emitMatchCount()
 }
 
 export const onDisconnect = (socket: Socket): void => {
