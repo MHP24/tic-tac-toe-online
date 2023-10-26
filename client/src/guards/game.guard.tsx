@@ -3,7 +3,11 @@ import { useGame } from '../hooks'
 import { publicRoutes } from '../mocks'
 
 export const GameGuard = () => {
-  const { room: hasGame } = useGame()
+  const { status } = useGame()
 
-  return hasGame ? <Outlet/> : <Navigate replace to={publicRoutes.home}/>
+  return (
+    ['Started', 'Finished', 'Closed'].includes(status)
+      ? <Outlet/>
+      : <Navigate replace to={publicRoutes.home}/>
+  )
 }
