@@ -39,11 +39,11 @@
 }
 
 .text-shadow:hover {
-  text-shadow: 0px 0px 2px var(--neon-white), 0px 0px 2px var(--neon-white), 0px 0px 2px var(--neon-white);
+  opacity: .8;
 }
 
 .box:hover {
-  box-shadow: 0px 0px 3px var(--neon-white), 0px 0px 3px var(--neon-white), 0px 0px 10px var(--neon-white);
+  opacity: .8;
 }
 
 

@@ -1,16 +1,20 @@
 import {
-  Routes,
-  Route
+  Route,
+  Routes
 } from 'react-router-dom'
 import { Lobby, Home, Game } from './pages'
+import { publicRoutes, privateRoutes } from './mocks'
+import { GameGuard } from './guards'
 
 const App = () => {
   return (
     <main>
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/lobby" element={<Lobby/>}/>
-        <Route path="/game" element={<Game/>}/>
+        <Route element={<GameGuard/>}>
+          <Route path={privateRoutes.game} element={<Game/>}/>
+        </Route>
+        <Route path={privateRoutes.lobby} element={<Lobby/>}/>
+        <Route path={publicRoutes.home} element={<Home/>}/>
       </Routes>
     </main>
   )
