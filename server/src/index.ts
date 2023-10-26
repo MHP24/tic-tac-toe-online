@@ -10,7 +10,10 @@ const server = createServer(app)
 server.listen(port, () => { console.log(`[Server] listening on port ${port}`) })
 
 export const io = new Server(server, {
-  cors: {}
+  cors: {
+    origin: serverConfig.clientUrl,
+    methods: ['GET', 'POST']
+  }
 })
 console.log('[io] Started')
 
