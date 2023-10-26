@@ -4,15 +4,14 @@ import { app } from './app'
 import { serverConfig } from './config'
 import { initializeConnection } from './controllers'
 
-const { port } = serverConfig
+const { port, clientUrl } = serverConfig
 
 const server = createServer(app)
 server.listen(port, () => { console.log(`[Server] listening on port ${port}`) })
 
 export const io = new Server(server, {
   cors: {
-    origin: serverConfig.clientUrl,
-    methods: ['GET', 'POST']
+    origin: [clientUrl]
   }
 })
 console.log('[io] Started')
